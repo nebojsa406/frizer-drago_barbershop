@@ -46,7 +46,7 @@ async function deleteFromCloud(publicId) {
 router.get("/", browseLimiter, async (req, res, next) => {
     try {
         const photos = await Photo.find();
-        if (!photos.length) return res.status(404).json({ message: "no photos found" });
+        if (photos.length === 0) return res.status(200).json(photos);
         return res.status(200).json(photos);
     } catch (err) {
         console.error(err);

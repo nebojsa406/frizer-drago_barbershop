@@ -3,7 +3,6 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const ServiceCard = require("../models/serviceCard.js");
 const {browseLimiter, crudLimiter, authenticateAccessToken, requireAdmin } = require("../middleware/auth.js");
-const { validatePhoneNumber } = require('../services/twilio.js');
 const { verifyPhoneFormatMonteNegro } = require("../services/verifyPhoneFormat.js");
 const { findByIdAndDelete } = require("../models/appointment.js");
 
@@ -12,7 +11,7 @@ const { findByIdAndDelete } = require("../models/appointment.js");
 router.get("/", browseLimiter, async(req, res) => {
     try {
         const services = await ServiceCard.find();
-        if (services.length === 0) return res.status(200).json({message: "no services found, list of services is empty"});
+        if (services.length === 0) return res.status(200).json({services: [], message: "no services found, list of services is empty"});
         res.status(200).json({services});
     } catch (err) {
         console.error(err);

@@ -1,5 +1,6 @@
-const API_URL = "http://localhost:5000/gallery";
+const API_URL = `${import.meta.env.VITE_API_URL}gallery`;
 import { toast } from "react-toastify";
+import { authFetch } from "./authFetch.js";
 
 //get
 export const getPhotos = async () => {
@@ -16,7 +17,6 @@ export const getPhotos = async () => {
 
 //upload
 export const uploadPhotos = async (files, category) => {
-    const accessToken = localStorage.getItem('accessToken');
     console.log("category: ", category);
 
     const formData = new FormData();
@@ -25,9 +25,8 @@ export const uploadPhotos = async (files, category) => {
     });
     formData.append("category", category);
 
-    const res = await fetch(API_URL, {
+    const res = await authFetch(API_URL, {
         method: "POST",
-        headers: { Authorization: `Bearer ${accessToken}` },
         body: formData
     });
 
@@ -43,11 +42,8 @@ export const uploadPhotos = async (files, category) => {
 
 //delete
 export const deletePhoto = async (id) => {
-    const accessToken = localStorage.getItem('accessToken');
-
-    const res = await fetch(`${API_URL}/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${accessToken}` },
+    const res = await authFetch(`${API_URL}/${id}`, {
+        method: "DELETE"
     });
 
     const data = await res.json();

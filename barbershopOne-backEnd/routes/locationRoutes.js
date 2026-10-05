@@ -8,7 +8,7 @@ const LocationCard = require("../models/locationCard.js")
 router.get("/", browseLimiter, async(req, res) => {
     try {
         const services = await LocationCard.find();
-        if (services.length === 0) return res.status(200).json({message: "no services found, list of services is empty"});
+        if (services.length === 0) return res.status(200).json({services: [], message: "no services found, list of services is empty"});
         res.status(200).json({services});
     } catch (err) {
         console.error(err);

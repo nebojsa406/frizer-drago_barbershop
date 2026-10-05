@@ -1,5 +1,6 @@
-const API_URL = "http://localhost:5000/services"
+const API_URL = `${import.meta.env.VITE_API_URL}services`;
 import { toast } from "react-toastify";
+import { authFetch } from "./authFetch.js";
 
 //get
 export const getServices = async () => {
@@ -17,7 +18,7 @@ export const getServices = async () => {
 export const updateService = async (id, serviceBody) => {
     const accessToken = localStorage.getItem('accessToken');
 
-    const res = await fetch(`${API_URL}/${id}`, {
+    const res = await authFetch(`${API_URL}/${id}`, {
         method: 'PATCH',
         headers: {
             "Content-Type": 'application/json',
@@ -37,7 +38,7 @@ export const updateService = async (id, serviceBody) => {
 export const deleteService = async(id) => {
     const accessToken = localStorage.getItem('accessToken');
 
-    const res = await fetch(`${API_URL}/${id}`,{
+    const res = await authFetch(`${API_URL}/${id}`,{
         method: "DELETE",
         headers: {"Authorization": `Bearer ${accessToken}`}
     })
@@ -54,7 +55,7 @@ export const deleteService = async(id) => {
 export const createService = async(serviceBody) => {
     const accessToken = localStorage.getItem('accessToken');
 
-    const res = await fetch(`${API_URL}`, {
+    const res = await authFetch(`${API_URL}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

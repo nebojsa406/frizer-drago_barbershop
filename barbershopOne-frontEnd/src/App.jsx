@@ -24,10 +24,12 @@ function App() {
     (async () => {
       try {
         const userData = await refreshTokenLogin();
-        if (!ignore) setUser(userData.user)//only update if ignore is false still
+        if (!ignore) setUser(userData?.user ?? null)//only update if ignore is false still
       } catch (error) {
-        console.log("error on refresh accessToken: ", error.message)
-        setUser(null);
+        if (!ignore) {
+          console.error("Failed to refresh session:", error.message);
+          setUser(null);
+        }
       }
     })();
 
@@ -37,6 +39,7 @@ function App() {
   }, []);
 
   //console.log("app.jsx: userData: ", user)
+  const isAdmin = user?.role === "admin";
 
   return (
     <div className="app-shell">
@@ -48,16 +51,13 @@ function App() {
 
           <Route path="/location" element={<LocationPage />} />
 
-          {user ? <Route path="/gallery" element={<GalleryPage admin={user.role === "admin" ? true : false } />} />
-          : <Route path="/gallery" element={<GalleryPage />} />}
+          <Route path="/gallery" element={<GalleryPage admin={isAdmin} />} />
 
-          {user ? <Route path="/prices" element={<PricesPage admin={user.role === "admin" ? true : false} />} />
-            : <Route path="/prices" element={<PricesPage />} />}
+          <Route path="/prices" element={<PricesPage admin={isAdmin} />} />
 
-          {user ? <Route path="/book" element={<AppointmentsPage admin={user.role === "admin" ? true : false} />} />
-            : <Route path="/book" element={<AppointmentsPage />} />}
+          <Route path="/book" element={<AppointmentsPage admin={isAdmin} />} />
 
-          <Route path="/admin1876" element={<AdminPage user={user} />} />
+          <Route path="/admin1876" element={<AdminPage user={user} setUser={setUser} />} />
 
           <Route path="*" element={<NotFoundPage />} />
 

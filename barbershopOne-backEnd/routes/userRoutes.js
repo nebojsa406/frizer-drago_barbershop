@@ -6,7 +6,7 @@ const { loginLimiter, createTokens, createAccessToken, authenticateRefreshToken 
 
 
 //login
-router.post("/login", loginLimiter, async (req, res) => {
+router.post("/login", async (req, res) => {
     try {
         if (!req.body || typeof req.body.email !== "string" || typeof req.body.password !== "string") {
             return res.status(400).json({ message: "email and password are required" });
@@ -31,7 +31,7 @@ router.post("/login", loginLimiter, async (req, res) => {
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             secure: true,
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 14 * 24 * 60 * 60 * 1000
         });
 
@@ -44,13 +44,18 @@ router.post("/login", loginLimiter, async (req, res) => {
 
 //logout
 router.post("/logout", async (req, res) => {
+    res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+    });
+
     try {
         const refreshToken = req.cookies.refreshToken;
-        const session = await User.updateOne(
+        await User.updateOne(
             { "sessions.refreshToken": refreshToken },
             { $pull: { sessions: { refreshToken: refreshToken } } } //pull out of sessions array by refresh token match
         );
-        res.clearCookie("refreshToken");
         res.status(200).json({ message: "session removed!" });
     } catch (err) {
         console.error(err);

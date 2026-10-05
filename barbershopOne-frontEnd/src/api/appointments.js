@@ -1,5 +1,6 @@
-const API_URL = "http://localhost:5000/appointments"
+const API_URL = `${import.meta.env.VITE_API_URL}appointments`;
 import { toast } from "react-toastify";
+import { authFetch } from "./authFetch.js";
 
 
 //------------CLIENT----------\\
@@ -47,10 +48,8 @@ export const getByPhone = async (phone) => {
 
 //get by date
 export const getByDate = async (date, toggleFrom) => {
-    const accessToken = localStorage.getItem('accessToken');
-    const res = await fetch(`${API_URL}/byDate?date=${date}&toggleFrom=${toggleFrom}`, {
-        method: 'GET',
-        headers: { "Authorization": `Bearer ${accessToken}` },
+    const res = await authFetch(`${API_URL}/byDate?date=${date}&toggleFrom=${toggleFrom}`, {
+        method: 'GET'
     });
     const data = await res.json();
     if (!res.ok) {
@@ -62,11 +61,8 @@ export const getByDate = async (date, toggleFrom) => {
 
 //get all appointments
 export const getAll = async () => {
-    const accessToken = localStorage.getItem('accessToken');
-
-    const res = await fetch(`${API_URL}/`, {
-        method: 'GET',
-        headers: { "Authorization": `Bearer ${accessToken}` },
+    const res = await authFetch(`${API_URL}/`, {
+        method: 'GET'
     });
     const data = await res.json();
     if (!res.ok) {
@@ -79,11 +75,8 @@ export const getAll = async () => {
 
 // delete one
 export const deleteOne = async (id) => {
-    const accessToken = localStorage.getItem("accessToken");
-
-    const res = await fetch(`${API_URL}/${id}`, {
-        method: "DELETE",
-        headers: { "Authorization": `Bearer ${accessToken}` }
+    const res = await authFetch(`${API_URL}/${id}`, {
+        method: "DELETE"
     });
     const data = await res.json();
     if (!res.ok) {

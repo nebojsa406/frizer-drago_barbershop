@@ -10,9 +10,8 @@ const requiredEnvVars = [
     'DATABASE_URL',
     'ACCESS_TOKEN_SECRET',
     'REFRESH_TOKEN_SECRET',
-    'TWILIO_ACCOUNT_SID',
-    'TWILIO_AUTH_TOKEN',
-    'FRONTEND_ORIGIN'
+    'FRONTEND_ORIGIN',
+    'PORT'
 ]
 for (const key of requiredEnvVars) {
     if (!process.env[key]) {
@@ -30,6 +29,7 @@ db.once('open', () => console.log("connected to data base"));
 app.use(express.json()); //allow middleware
 app.use(cookieParser());
 app.use(cors({origin: process.env.FRONTEND_ORIGIN, credentials: true})); //to not block front end connection to back end if they are different origin
+app.set("trust proxy", 1);
 
 //-------routes-------\\
 
@@ -58,4 +58,4 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 //port
-app.listen(5000, () => console.log("server has started on port 5000"));
+app.listen(process.env.PORT, () => console.log("server has started on port 5000"));

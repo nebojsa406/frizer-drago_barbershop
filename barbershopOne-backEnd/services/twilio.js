@@ -1,3 +1,4 @@
+/*
 const twilio = require("twilio");
 require("dotenv").config();
 
@@ -23,3 +24,4 @@ async function validatePhoneNumber(phoneNumber, countryCode) {
 //validatePhoneNumber('+15551234567').then(console.log);
 
 module.exports = { validatePhoneNumber };
+*/
