@@ -8,10 +8,10 @@ export function Header() {
             <div className="header-inner">
                 <Link to="/" className="brand">
                     <div className="logo-wrap">
-                        <img src={logo} alt="The Standing Chair" className="logo-img" />
+                        <img src={logo} alt="Podgorička Britva" className="logo-img" />
                     </div>
                     <div className="brand-text">
-                        <div className="brand-title">The Standing Chair</div>
+                        <div className="brand-title">Podgorička Britva</div>
                         <div className="brand-sub">BARBERSHOP · EST. 2018</div>
                     </div>
                 </Link>

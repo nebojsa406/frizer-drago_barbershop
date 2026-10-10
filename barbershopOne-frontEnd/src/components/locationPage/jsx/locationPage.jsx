@@ -57,7 +57,7 @@ export function LocationPage() {
                             <div className="location-address">
                                 <h2>{address}</h2>
                             </div>
-                            <p className="location-note">Buzzer marked Standing Chair come on up.</p>
+                            <p className="location-note">Buzzer marked Podgorička Britva, come on up.</p>
                         </div>
 
                         <div className="location-divider" />
