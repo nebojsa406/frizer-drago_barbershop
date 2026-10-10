@@ -40,10 +40,10 @@ export function Footer() {
                 <div className="footer-logo-section">
                     <div className="footer-logo-section-inner">
                         <div className="footer-logo">
-                            <img src={logo} alt="Podgorička Britva" className="footer-logo-image" />
+                            <img src={logo} alt="Frizer Drago" className="footer-logo-image" />
                         </div>
                         <div className="footer-logo-text">
-                            <h2 className="footer-title">Podgorička Britva</h2>
+                            <h2 className="footer-title">Frizer Drago</h2>
                             <p className="footer-subtitle">BARBERSHOP · EST. 2018</p>
                         </div>
                     </div>
@@ -80,7 +80,7 @@ export function Footer() {
 
             {/* Bottom Footer */}
             <div className="footer-bottom">
-                <p className="footer-copyright">© 2026 PODGORIČKA BRITVA</p>
+                <p className="footer-copyright">© 2026 FRIZER DRAGO</p>
                 <p className="footer-tagline">DESIGNED FOR THE COMFORTABLE SEATING, NOT THE QUEUE</p>
             </div>
         </footer>
