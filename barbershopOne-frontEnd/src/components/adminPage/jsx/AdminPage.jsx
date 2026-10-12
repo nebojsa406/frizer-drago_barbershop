@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from 'react-router-dom';
 import "../css/AdminPage.css"
 import { login } from "../../../api/admin";
 import { logout } from "../../../api/admin";
@@ -9,6 +10,7 @@ function LoginForm({ onLogin, setUser }) {
     const [password, setPassword] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const nav = useNavigate();
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -21,6 +23,7 @@ function LoginForm({ onLogin, setUser }) {
                 throw new Error(loginData.body?.message || "Invalid email or password");
             }
             onLogin(loginData.body.user);
+            nav("/");//navigate to home
         } catch (error) {
             setErrorMessage(error.message);
         } finally {
@@ -64,7 +67,7 @@ function LoginForm({ onLogin, setUser }) {
     </section>
 }
 
-function UserInfoLogout({ userInfo, onLogout }) {
+function LoggedinUserInfo({ userInfo, onLogout }) {
     const displayName = userInfo.username || "Staff";
     const displayEmail = userInfo.email || "no email";
     const displayRole = userInfo.role || "user";
@@ -113,7 +116,7 @@ export function AdminPage({ user, setUser }) {
             {!displayedUser ?
                 <LoginForm onLogin={setNewUser} setUser={setUser} />
                 :
-                <UserInfoLogout userInfo={displayedUser} onLogout={handleLogout} />
+                <LoggedinUserInfo userInfo={displayedUser} onLogout={handleLogout} />
             }
         </div>
     )

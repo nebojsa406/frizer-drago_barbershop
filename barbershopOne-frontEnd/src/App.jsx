@@ -43,7 +43,7 @@ function App() {
 
   return (
     <div className="app-shell">
-      <Header />
+      <Header admin={isAdmin} setUser={setUser} />
       <main className="main-content">
         <Routes>
 

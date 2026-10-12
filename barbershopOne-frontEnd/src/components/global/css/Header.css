@@ -1,5 +1,6 @@
 /* Header styles matching the provided design */
 :root {
+    --site-header-height: 71px;
     --ink: #12100D;
     --panel: #1C1712;
     --walnut: #2E2119;
@@ -123,7 +124,7 @@
     width: 100%;
 }
 
-.btn-book {
+.btn-book, .log-out {
     font-family: 'Space Mono', monospace;
     font-size: 12px;
     letter-spacing: 0.14em;
@@ -138,22 +139,63 @@
     transition: transform .2s ease, box-shadow .2s ease;
 }
 
-.btn-book:hover {
+.btn-book:hover, .log-out:hover {
     transform: translateY(-1px);
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset, 0 10px 20px -8px rgba(199, 154, 92, 0.65);
 }
 
+.log-out {
+    font-size: 10px;
+    padding: 6px 14px;
+}
+
 @media (max-width: 800px) {
+    :root {
+        --site-header-height: 97px;
+    }
+
+    .header-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 4px 8px;
+        padding: 5px 0;
+    }
+
+    .brand {
+        min-width: 0;
+        gap: 8px;
+    }
+
+    .logo-wrap {
+        width: 32px;
+        height: 32px;
+    }
+
+    .logo-img {
+        width: 26px;
+        height: 26px;
+    }
+
+    .brand-sub {
+        font-size: 9px;
+        letter-spacing: 1px;
+        white-space: nowrap;
+    }
+
+    .logout-wrap-link {
+        justify-self: end;
+    }
+
+    .log-out {
+        padding: 6px 10px;
+    }
+
     .site-nav {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         width: 100%;
-        gap: 10px 8px;
-    }
-
-    .header-inner {
-        flex-wrap: wrap;
-        padding: 12px;
+        gap: 4px 8px;
+        grid-column: 1 / -1;
     }
 
     .brand-title {
@@ -162,7 +204,7 @@
 
     .nav-link {
         text-align: center;
-        padding: 8px 0;
+        padding: 4px 0;
     }
 
     .btn-book-wrap-link {
@@ -171,6 +213,7 @@
 
     .btn-book {
         width: 100%;
+        padding: 5px 12px;
     }
 }
 

@@ -157,7 +157,7 @@ export function AppointmentsPage({ admin = false }) {
 
     return (
         <div className="appointments-page">
-            {admin === true ?
+            {admin === true ? // admin open/close button
                 <button
                     type="button"
                     className={`admin-panel-toggle-btn ${showAppointmentSearch ? "admin-toggle-search-open" : ""}`}
@@ -168,12 +168,12 @@ export function AppointmentsPage({ admin = false }) {
                 : <></>
             }
 
-            {showAdminPanel && admin === true ?
+            {showAdminPanel && admin === true ? //admin panel
                 <AdminAppointmentPanel dateComparison={dateComparison} dateToday={dateToday} />
                 : <></>
             }
 
-            {showAppointmentSearch && (
+            {showAppointmentSearch && ( //search appointment
                 <AppointmentSearch
                     searchPhone={searchPhone}
                     setSearchPhone={setSearchPhone}
@@ -181,7 +181,7 @@ export function AppointmentsPage({ admin = false }) {
                     onSearch={handleSearchByPhone}
                 />
             )}
-            {!showAppointmentSearch && (
+            {!showAppointmentSearch && ( //expand search appointment
                 <button
                     type="button"
                     aria-label="Open appointment search"
@@ -194,7 +194,7 @@ export function AppointmentsPage({ admin = false }) {
                     <span className="appointment-search-icon">+</span>
                 </button>
             )}
-            {showAppointments && (
+            {showAppointments && ( //FOUND appointments template
                 <AppointmentResultsTemplate
                     appointments={appointmentsByPhone}
                     onClose={handleCloseAppointments}
@@ -203,7 +203,7 @@ export function AppointmentsPage({ admin = false }) {
                 />
             )}
 
-            {!showAppointments && showAppointmentSearch &&
+            {!showAppointments && showAppointmentSearch && //OPEN/CLOSE appointments template
                 <div className="appointment-search-reopen">
                     <button
                         type="button"

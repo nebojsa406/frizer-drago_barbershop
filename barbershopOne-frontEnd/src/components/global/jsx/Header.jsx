@@ -1,8 +1,27 @@
-import { Link } from 'react-router-dom'
-import "../css/Header.css"
-import logo from "../../../assets/barbershop1Logo.png"
+import { Link } from 'react-router-dom';
+import "../css/Header.css";
+import logo from "../../../assets/barbershop1Logo.png";
+import { useState } from "react" ;
+import { logout } from "../../../api/admin";
 
-export function Header() {
+export function Header({ admin, setUser }) {
+    const [errorMessage, setErrorMessage] = useState("");
+
+    async function handleLogout(event) {
+        event.preventDefault();
+        setErrorMessage("");
+
+        try {
+            const logoutData = await logout(setUser);
+            if (logoutData.status >= 300) {
+                throw new Error(logoutData?.message || "oops something went wrong! try again later.");
+            }
+            console.log(logoutData.body);
+        } catch (error) {
+            setErrorMessage(error.message);
+        }
+    }
+
     return (
         <header className="site-header">
             <div className="header-inner">
@@ -15,6 +34,11 @@ export function Header() {
                         <div className="brand-sub">BARBERSHOP · EST. 2018</div>
                     </div>
                 </Link>
+
+                {admin ?
+                    <Link to="/" className="logout-wrap-link"><button onClick={(e) => handleLogout(e)} className="log-out">LOG OUT</button></Link>
+                    : <></>
+                }
 
                 <nav className="site-nav" aria-label="Primary navigation">
                     <Link to="/location" className="nav-link">LOCATION</Link>

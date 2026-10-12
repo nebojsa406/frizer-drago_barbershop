@@ -1,6 +1,6 @@
 :root {
     --ink: #12100D;
-    --panel: #1C1712;
+    --panel: #1c1712;
     --walnut: #2E2119;
     --brass: #C79A5C;
     --brass-bright: #E4BC80;
@@ -24,7 +24,7 @@
 
 .admin-panel-toggle-btn {
     position: fixed;
-    top: 132px;
+    top: calc(var(--site-header-height) + 15px);
     left: 3rem;
     z-index: 61;
     padding: 8px 12px;
@@ -48,7 +48,7 @@
 
 .admin-panel {
     position: fixed;
-    top: 50%;
+    top: calc(var(--site-header-height) + 62px);
     left: 50%;
     z-index: 60;
     width: min(900px, calc(100vw - 6rem));
@@ -62,7 +62,7 @@
     align-items: center;
     justify-content: top;
     flex-direction: column;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
 }
 
 .admin-panel h2 {
@@ -133,10 +133,12 @@
 }
 
 .appointment-search {
+    background-color: rgba(46, 33, 25, 0.9);
+    border-radius: 6px 6px 0 0;
     position: fixed;
-    top: 132px;
+    top: calc(var(--site-header-height) + 15px);
     right: 3rem;
-    z-index: 10;
+    z-index: 11;
     display: grid;
     width: 413px;
     box-sizing: border-box;
@@ -144,12 +146,17 @@
     align-items: center;
     row-gap: 4px;
     column-gap: 12px;
-    padding-bottom: 10px;
+    padding-left: 5px;
 }
 
 .appointment-search-reopen {
+    background-color: rgba(46, 33, 25, 0.9);
+    border-radius: 0 0 6px 6px;
     position: fixed;
-    top: 210px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    top: calc(var(--site-header-height) + 88px);
     right: 3rem;
     z-index: 10;
     display: grid;
@@ -159,9 +166,9 @@
 }
 
 .close-appointment-search-btn {
-    position: absolute;
-    top: -25px;
-    right: -5px;
+    position: fixed;
+    top: calc(var(--site-header-height) + 96px);
+    right: calc(3rem + 5px);
     width: 20px;
     height: 20px;
     box-sizing: border-box;
@@ -194,7 +201,7 @@
 
 .open-appointment-search-btn {
     position: fixed;
-    top: 132px;
+    top: calc(var(--site-header-height) + 15px);
     right: 3rem;
     z-index: 10;
     width: 24px;
@@ -294,11 +301,11 @@
 
 .appointment-results-template {
     position: fixed;
-    top: 225px;
+    top: calc(var(--site-header-height) + 108px);
     right: 3rem;
     z-index: 9;
     width: min(100% - 6rem, 512px);
-    max-height: calc(100vh - 249px);
+    max-height: calc(100vh - var(--site-header-height) - 132px);
     min-height: 180px;
     box-sizing: border-box;
     padding: 12px;
@@ -677,8 +684,15 @@
         padding: 130px 1.25rem 40px;
     }
 
+    .appoint-page-submit-btn {
+        width: 75%;
+        height: 35px;
+        padding: 0;
+        align-self: center;
+    }
+
     .admin-panel-toggle-btn {
-        top: 210px;
+        top: calc(var(--site-header-height) + 23px);
         left: 1.25rem;
     }
 
@@ -687,12 +701,12 @@
     }
 
     .admin-panel {
-        top: 255px;
+        top: calc(var(--site-header-height) + 70px);
         left: 1.25rem;
         width: calc(100vw - 2.5rem);
-        height: calc(100vh - 280px);
+        height: calc(100vh - var(--site-header-height) - 85px);
         min-height: 320px;
-        max-height: calc(100vh - 280px);
+        max-height: calc(100vh - var(--site-header-height) - 85px);
         transform: none;
     }
 
@@ -754,30 +768,44 @@
     }
 
     .appointment-search {
-        top: 202px;
+        top: calc(var(--site-header-height) + 15px);
         right: 1.25rem;
         left: 1.25rem;
         width: auto;
         grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .appointment-search .appointment-search-format {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    .appointment-search .search-appointment-btn {
+        grid-row: 3;
     }
 
     .appointment-search-reopen {
-        top: 280px;
+        top: calc(var(--site-header-height) + 115px);
         right: 1.25rem;
         left: 1.25rem;
         width: auto;
         grid-template-columns: auto minmax(0, 1fr);
     }
 
+    .close-appointment-search-btn {
+        top: calc(var(--site-header-height) + 123px);
+        right: calc(1.25rem + 5px);
+    }
+
     .open-appointment-search-btn {
-        top: 202px;
+        top: calc(var(--site-header-height) + 15px);
         right: 1.25rem;
     }
 
     .appointment-results-template {
-        top: 320px;
+        top: calc(var(--site-header-height) + 133px);
         right: 1.25rem;
         width: calc(100% - 2.5rem);
-        max-height: calc(100vh - 344px);
+        max-height: calc(100vh - var(--site-header-height) - 157px);
     }
 }
