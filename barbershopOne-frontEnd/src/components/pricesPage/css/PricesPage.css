@@ -163,6 +163,7 @@
     z-index: 10;
     margin-top: 0;
     transform: translateX(-50%);
+    background-color: #1C1712;
 }
 
 .create-service-card {
