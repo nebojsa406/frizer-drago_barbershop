@@ -277,7 +277,7 @@ export function AppointmentsPage({ admin = false }) {
                                 <input type="tel" onChange={(e) => { setPhone(e.target.value) }} placeholder="Phone Number" required />
                             </div>
                             <input className="appoint-page-email-input" onChange={(e) => { setEmail(e.target.value) }} type="email" placeholder="Email Address (Optional)" />
-                            <textarea className="appoint-page-message-input" onChange={(e) => { setDetails(e.target.value) }} placeholder="Anything we should know? (Optional)"></textarea>
+                            <textarea className="appoint-page-message-input" maxlength="400" onChange={(e) => { setDetails(e.target.value) }} placeholder="Anything we should know? (Optional)"></textarea>
                         </div>
                     </div>
 

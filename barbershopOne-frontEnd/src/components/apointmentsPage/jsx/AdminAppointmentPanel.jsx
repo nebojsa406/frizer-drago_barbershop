@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { deleteOne, getByDate, getAll } from "../../../api/appointments";
+import { AppointmentCard } from "./AppointmentCard.jsx";
 
 
 export function AdminAppointmentPanel( { dateComparison, dateToday } ) {
@@ -67,22 +68,20 @@ export function AdminAppointmentPanel( { dateComparison, dateToday } ) {
                     />
                     <button onClick={handleDelete} className="search-appointment-btn" disabled={isSearching || isDeleting}>{isDeleting ? "Deleting..." : "Delete"}</button>
                 </div>
-                <div className={`apc-appointments ${appointmentsAdmin.length > 12 ? "has-scroll" : ""} ${appointmentsAdmin.length > 4 ? "has-mobile-scroll" : ""}`}>
+                <div className={`apc-appointments ${appointmentsAdmin.length > 6 ? "has-scroll" : ""} ${appointmentsAdmin.length > 3 ? "has-mobile-scroll" : ""}`}>
 
                     {appointmentsAdmin.length !== 0 ?
                         appointmentsAdmin.map((item) => {
                             return (
-                                <div
+                                <AppointmentCard
+                                    appointment={item}
+                                    dateComparison={dateComparison}
+                                    dateToday={dateToday}
+                                    adminView
+                                    isSelected={adminSelectedCard === item._id}
                                     onClick={() => setAdminSelectedCard(item._id)}
-                                    className={`appointment-results-card ${adminSelectedCard === item._id ? "admin-selected-card" : ""}
-                                    ${item.done === true || !dateComparison(item.date, dateToday) ? "appointment-done" : ""}`}
                                     key={item._id}
-                                >
-                                    <p>{item.fullname}</p>
-                                    <p>{item.date.slice(0, 10)}</p>
-                                    <p>{item.time}</p>
-                                    <p>{item.phone}</p>
-                                </div>
+                                />
                             )
                         })
                         : <>no appointments found</>

@@ -201,7 +201,9 @@ router.patch("/:id", crudLimiter, authenticateAccessToken, requireAdmin, async (
 });
 
 //delete
-router.delete("/:id", crudLimiter, authenticateAccessToken, requireAdmin, async (req, res) => {
+router.delete("/:id", authenticateAccessToken, requireAdmin, async (req, res) => {
+    //removed crud limit to prevent admin locking himself out of this function
+    //should make new limiter for actions that happen more
     try {
         if (!mongoose.isValidObjectId(req.params.id)) {
             return res.status(400).json({ message: "invalid appointment id" });
