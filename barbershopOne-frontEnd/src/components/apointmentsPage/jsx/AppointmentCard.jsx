@@ -19,7 +19,7 @@ export function AppointmentCard({
                 <p>{appointment.date.slice(0, 10)}</p>
                 <p>{appointment.time}</p>
                 <p className="appointment-card-phone">{formattedPhone}</p>
-                <p>{appointment.email}</p>
+                <p>{appointment.email ? appointment.email : "no email"}</p>
             </div>
 
             <div className={`appointment-results-card-details ${adminView ? "appointment-admin-card-details" : ""}`}>
