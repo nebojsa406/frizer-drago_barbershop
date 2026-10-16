@@ -68,7 +68,7 @@ export function AdminAppointmentPanel( { dateComparison, dateToday } ) {
                     />
                     <button onClick={handleDelete} className="search-appointment-btn" disabled={isSearching || isDeleting}>{isDeleting ? "Deleting..." : "Delete"}</button>
                 </div>
-                <div className={`apc-appointments ${appointmentsAdmin.length > 6 ? "has-scroll" : ""} ${appointmentsAdmin.length > 3 ? "has-mobile-scroll" : ""}`}>
+                <div className={`apc-appointments ${appointmentsAdmin.length > 6 ? "has-scroll" : ""} ${appointmentsAdmin.length > 2 ? "has-mobile-scroll" : ""}`}>
 
                     {appointmentsAdmin.length !== 0 ?
                         appointmentsAdmin.map((item) => {
