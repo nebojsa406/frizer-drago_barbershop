@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Appointment = require("../models/appointment");
+const TimeSlot = require("../models/timeSlot.js");
 const { browseLimiter, crudLimiter, authenticateAccessToken, requireAdmin } = require("../middleware/auth");
 const { verifyPhoneFormatMonteNegro } = require("../services/verifyPhoneFormat.js");
 
@@ -9,8 +10,10 @@ const { verifyPhoneFormatMonteNegro } = require("../services/verifyPhoneFormat.j
 router.get("/times", browseLimiter, async (req, res) => {
     try {
         const takenTimes = await Appointment.find({ date: { $gte: new Date().setHours(0, 0, 0, 0) } }, { _id: 0, time: 1, date: 1 });
-        if (takenTimes.length === 0) return res.status(200).json({ message: "no taken times been found in present or future" });
-        res.status(200).json({ takenTimes });
+        const disabledTimes = await TimeSlot.find({ date: { $gte: new Date().setHours(0, 0, 0, 0) } }, { _id: 0, time: 1, date: 1 });
+        const unavailableTimes = [...takenTimes, ...disabledTimes];
+        if (unavailableTimes.length === 0) return res.status(200).json({ message: "no taken times been found in present or future" });
+        res.status(200).json({ times: [...unavailableTimes] });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "server error" });
@@ -18,7 +21,7 @@ router.get("/times", browseLimiter, async (req, res) => {
 });
 
 //get user appointment by phone number
-router.get("/byPhone", crudLimiter, async (req, res) => {
+router.get("/byPhone", browseLimiter, async (req, res) => {
     try {
         const phone = req.query.phone;
         const expiredAppointmentsIds = [];
@@ -166,6 +169,29 @@ router.post("/", crudLimiter, async (req, res) => {
 
         const newAppointment = await appointment.save();
         res.status(201).json(newAppointment);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "server error" });
+    }
+});
+
+router.post("/disableTimeSlot", authenticateAccessToken, requireAdmin, async (req, res) => {
+    try {
+        const [year, month, day] = req.body.date.split("-").map(Number); // .map(Number) converts strings to numbers
+        const dateObj = new Date(Date.UTC(year, month -1, day)).setUTCHours(0,0,0,0);
+
+        const disabledTimes = await TimeSlot.find({ date: dateObj, time: req.body.time }, { _id: 0, time: 1, date: 1 });
+        if (disabledTimes.length !== 0) return res.status(400).json({message: "cant disable same time slot twice!"});
+
+        const timeSlot = new TimeSlot({
+            date: dateObj,
+            time: req.body.time
+        });
+
+        const newTimeSlot = await timeSlot.save();
+        console.log("newTimeSlot: ", newTimeSlot);
+
+        res.status(201).json({message: "added disableTimeSlot", timeSlot: newTimeSlot});
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "server error" });

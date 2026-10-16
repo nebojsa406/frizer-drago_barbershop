@@ -6,10 +6,11 @@ import { authFetch } from "./authFetch.js";
 //------------CLIENT----------\\
 
 //get times
-export const getTimes = async () => {
+export const getTakenTimes = async () => {
     const res = await fetch(`${API_URL}/times`);
     if (!res.ok) throw new Error('failed to fetch appointments times');
-    return res.json();
+    const data = await res.json();
+    return data.times;
 }
 
 //post
@@ -85,5 +86,28 @@ export const deleteOne = async (id) => {
     }
 
     toast("SUCCESS, appointment deleted", { className: "successToast", progressClassName: "successProgress" });
+    return data;
+}
+
+//disable time slot
+export const disableTimeSlot = async (date, time) => {
+    const accessToken = localStorage.getItem('accessToken');
+
+    const res = await authFetch(`${API_URL}/disableTimeSlot`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({ date: date, time: time })
+    })
+    const data = await res.json();
+
+    if (!res.ok) {
+        toast(data.message, { className: "errorToast", progressClassName: "errorProgress" });
+        throw new Error(data.message || "Failed to load appointments");
+    }
+
+    toast("SUCCESS, time slot disabled", { className: "successToast", progressClassName: "successProgress" });
     return data;
 }

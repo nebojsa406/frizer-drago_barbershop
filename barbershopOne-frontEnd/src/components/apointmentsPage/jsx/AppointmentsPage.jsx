@@ -1,6 +1,6 @@
 import "../css/AppointmentsPage.css"
 import { useState, useEffect } from "react";
-import { getTimes, postAppointment, getByPhone } from "../../../api/appointments";
+import { getTakenTimes, disableTimeSlot, postAppointment, getByPhone } from "../../../api/appointments";
 import { toast } from "react-toastify";
 import { getServices } from "../../../api/services.js"
 import { AdminAppointmentPanel } from "./AdminAppointmentPanel.jsx";
@@ -60,8 +60,8 @@ export function AppointmentsPage({ admin = false }) {
     useEffect(() => {
         (async () => {
             try {
-                const data = await getTimes();
-                setTakenTimes(data?.takenTimes ?? []);
+                const data = await getTakenTimes();
+                setTakenTimes(data ?? []);
                 const serviceData = await getServices();
                 setServices(serviceData.services);
 
@@ -146,7 +146,11 @@ export function AppointmentsPage({ admin = false }) {
         }
     }
 
-
+    function handleDisableTimeSlot() {
+        if (selectedDate !== "" && selectedTime !== "") disableTimeSlot(selectedDate, selectedTime);
+        else toast("select time and date before disabling", { className: "errorToast", progressClassName: "errorProgress" });
+        
+    }
 
     function dateComparison(dateA, dateB) {//is date A bigger then date B
         if (dateA >= dateB) {
@@ -158,13 +162,23 @@ export function AppointmentsPage({ admin = false }) {
     return (
         <div className="appointments-page">
             {admin === true ? // admin open/close button
-                <button
-                    type="button"
-                    className={`admin-panel-toggle-btn ${showAppointmentSearch ? "admin-toggle-search-open" : ""}`}
-                    onClick={handleToggleAdminPanel}
-                >
-                    {showAdminPanel ? "close admin panel" : "open admin panel"}
-                </button>
+                <>
+                    <button
+                        type="button"
+                        className={`admin-panel-toggle-btn ${showAppointmentSearch ? "admin-toggle-search-open" : ""}`}
+                        onClick={handleToggleAdminPanel}
+                    >
+                        {showAdminPanel ? "close admin panel" : "open admin panel"}
+                    </button>
+
+                    <button
+                        type="button"
+                        className={`disable-time-slot-btn ${showAppointmentSearch ? "admin-toggle-search-open" : ""}`}
+                        onClick={handleDisableTimeSlot}
+                    >
+                        disable time slot
+                    </button>
+                </>
                 : <></>
             }
 
@@ -277,7 +291,7 @@ export function AppointmentsPage({ admin = false }) {
                                 <input type="tel" onChange={(e) => { setPhone(e.target.value) }} placeholder="Phone Number" required />
                             </div>
                             <input className="appoint-page-email-input" onChange={(e) => { setEmail(e.target.value) }} type="email" placeholder="Email Address (Optional)" />
-                            <textarea className="appoint-page-message-input" maxlength="400" onChange={(e) => { setDetails(e.target.value) }} placeholder="Anything we should know? (Optional)"></textarea>
+                            <textarea className="appoint-page-message-input" maxLength="400" onChange={(e) => { setDetails(e.target.value) }} placeholder="Anything we should know? (Optional)"></textarea>
                         </div>
                     </div>
 

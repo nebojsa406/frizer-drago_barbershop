@@ -62,6 +62,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
 
         </Routes>
+        
         <ToastContainer />
       </main>
       <Footer />

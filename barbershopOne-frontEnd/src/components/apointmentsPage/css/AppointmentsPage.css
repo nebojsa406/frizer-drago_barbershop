@@ -22,7 +22,7 @@
     padding: 40px 3rem;
 }
 
-.admin-panel-toggle-btn {
+.admin-panel-toggle-btn, .disable-time-slot-btn {
     position: fixed;
     top: calc(var(--site-header-height) + 15px);
     left: 3rem;
@@ -40,10 +40,17 @@
 }
 
 .admin-panel-toggle-btn:hover,
-.admin-panel-toggle-btn:focus-visible {
+.admin-panel-toggle-btn:focus-visible,
+.disable-time-slot-btn:hover,
+.disable-time-slot-btn:focus-visible {
     color: var(--cream);
     background: var(--walnut);
     outline: none;
+}
+.disable-time-slot-btn{
+    top: calc(var(--site-header-height) + 60px);
+    left: 3rem;
+    z-index: 61;
 }
 
 .admin-panel {
@@ -760,7 +767,12 @@
         left: 1.25rem;
     }
 
-    .admin-panel-toggle-btn.admin-toggle-search-open {
+    .disable-time-slot-btn {
+        top: calc(var(--site-header-height) + 62px);
+        left: 1.25rem;
+    }
+
+    .admin-panel-toggle-btn.admin-toggle-search-open, .disable-time-slot-btn.admin-toggle-search-open {
         display: none;
     }
 
