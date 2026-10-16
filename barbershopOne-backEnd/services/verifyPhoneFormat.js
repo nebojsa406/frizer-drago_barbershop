@@ -42,10 +42,12 @@ function verifyPhoneFormatMonteNegro(phoneNumber) {
 
     //0
     if (filteredNumber.startsWith("0")) {
-        if (filteredNumber.length === 9) {
-            if (isAllDigits(filteredNumber)) {
-                const normalisedPhone = filteredNumber.replace("00382", "");
-                return normalisedPhone
+        if (filteredNumber.startsWith("069") || filteredNumber.startsWith("068") || filteredNumber.startsWith("067")) {
+            if (filteredNumber.length === 9) {
+                if (isAllDigits(filteredNumber)) {
+                    const normalisedPhone = filteredNumber.replace("00382", "");
+                    return normalisedPhone
+                }
             }
         }
     }
