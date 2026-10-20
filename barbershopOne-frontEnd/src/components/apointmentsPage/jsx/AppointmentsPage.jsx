@@ -44,7 +44,7 @@ export function AppointmentsPage({ admin = false }) {
 
     //appointment data
     const [selectedService, setSelectedService] = useState("");
-    const [selectedDate, setSelectedDate] = useState("");
+    const [selectedDate, setSelectedDate] = useState(dateToday);
     const [selectedTime, setSelectedTime] = useState("");
     const [fullname, setFullname] = useState("");
     const [phone, setPhone] = useState("");
@@ -88,7 +88,6 @@ export function AppointmentsPage({ admin = false }) {
 
         return { time: time, available: true }
     });
-
 
     async function handleConfirmAppointment(event) {
         event.preventDefault();
@@ -149,7 +148,7 @@ export function AppointmentsPage({ admin = false }) {
     function handleDisableTimeSlot() {
         if (selectedDate !== "" && selectedTime !== "") disableTimeSlot(selectedDate, selectedTime);
         else toast("select time and date before disabling", { className: "errorToast", progressClassName: "errorProgress" });
-        
+
     }
 
     function dateComparison(dateA, dateB) {//is date A bigger then date B
@@ -157,6 +156,17 @@ export function AppointmentsPage({ admin = false }) {
             return true;
         }
         return false;
+    }
+
+    function handleDateShift(days) {
+        const [year, month, day] = (selectedDate || dateToday).split("-").map(Number);
+        const nextDate = new Date(year, month - 1, day + days);
+        const nextDateString = getLocalDateString(nextDate);
+
+        if (nextDateString < dateToday) return;
+
+        setSelectedDate(nextDateString);
+        setSelectedTime("");
     }
 
     return (
@@ -171,13 +181,15 @@ export function AppointmentsPage({ admin = false }) {
                         {showAdminPanel ? "close admin panel" : "open admin panel"}
                     </button>
 
-                    <button
-                        type="button"
-                        className={`disable-time-slot-btn ${showAppointmentSearch ? "admin-toggle-search-open" : ""}`}
-                        onClick={handleDisableTimeSlot}
-                    >
-                        disable time slot
-                    </button>
+                    {!showAdminPanel && (
+                        <button
+                            type="button"
+                            className={`disable-time-slot-btn ${showAppointmentSearch ? "admin-toggle-search-open" : ""}`}
+                            onClick={handleDisableTimeSlot}
+                        >
+                            disable time slot
+                        </button>
+                    )}
                 </>
                 : <></>
             }
@@ -253,16 +265,35 @@ export function AppointmentsPage({ admin = false }) {
 
                     <div className="appoint-page-date-input-div">
                         <p className="appoint-page-eyebrow">CHOOSE A DATE</p>
-                        <input
-                            type="date"
-                            min={dateToday}
-                            onChange={(e) => {
-                                setSelectedDate(e.target.value);
-                                setSelectedTime("");
-                            }}
-                            className="appoint-page-date-input"
-                            required
-                        />
+                        <div className="choose-date-content-div">
+                            <button
+                                type="button"
+                                onClick={() => handleDateShift(-1)}
+                                className="date-shift-btn"
+                                aria-label="Previous date"
+                            >
+                                {"<"}
+                            </button>
+                            <input
+                                type="date"
+                                min={dateToday}
+                                value={selectedDate}
+                                onChange={(e) => {
+                                    setSelectedDate(e.target.value);
+                                    setSelectedTime("");
+                                }}
+                                className="appoint-page-date-input"
+                                required
+                            />
+                            <button
+                                type="button"
+                                onClick={() => handleDateShift(1)}
+                                className="date-shift-btn"
+                                aria-label="Next date"
+                            >
+                                {">"}
+                            </button>
+                        </div>
                     </div>
 
                     <div className="appoint-page-time-input-div">

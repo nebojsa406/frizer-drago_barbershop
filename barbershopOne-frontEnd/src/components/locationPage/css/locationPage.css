@@ -11,7 +11,7 @@
 
 .location-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1600px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -148,7 +148,7 @@
 
 .location-info-section {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
   margin-top: 3rem;
   padding: 0 4%;
@@ -381,5 +381,18 @@
     max-width: 100%;
     box-sizing: border-box;
     padding: 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  .location-panel,
+  .location-map {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .location-content,
+  .map-frame {
+    width: 100%;
   }
 }

@@ -24,7 +24,7 @@
 }
 
 .header-inner {
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -219,6 +219,6 @@
 
 @media (min-width: 1200px) {
     .site-header {
-        padding: 0 20%;
+        padding: 0 6%;
     }
 }

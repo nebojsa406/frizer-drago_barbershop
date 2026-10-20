@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { uploadPhotos, deletePhoto } from "../../../api/gallery";
 import { toast } from "react-toastify";
 
 export function GalleryAdminPanel({ gallery = [], setGallery, onAddingChange }) {
+    const wrapperRef = useRef(null);
 
     const [isAdding, setIsAdding] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
@@ -88,6 +89,15 @@ export function GalleryAdminPanel({ gallery = [], setGallery, onAddingChange }) 
         deletePhoto(id);
     }
 
+    function toggleFullScreen() {
+        const ele = wrapperRef.current;
+        if (!document.fullscreenElement) {
+            ele.requestFullscreen?.();
+        } else {
+            document.exitFullscreen?.();
+        }
+    }
+
     return (
         <div className={`gallery-admin-panel${isAdding ? " is-adding" : ""}`}>
             <div className="gallery-admin-actions">
@@ -153,8 +163,8 @@ export function GalleryAdminPanel({ gallery = [], setGallery, onAddingChange }) 
                 </div>
             )}
 
-            <div className="gallery-selected-photo">
-                {displayedPhoto ? <img src={displayedPhoto} alt="Selected gallery photo" /> : null}
+            <div className="gallery-selected-photo" ref={wrapperRef} onClick={toggleFullScreen}>
+                {displayedPhoto ? <img src={displayedPhoto} alt="Selected gallery photo" loading="lazy" /> : null}
             </div>
 
             {photoUrls.length > 0 && (
@@ -168,7 +178,7 @@ export function GalleryAdminPanel({ gallery = [], setGallery, onAddingChange }) 
                             aria-label={`Show gallery photo ${index + 1}`}
                             aria-pressed={photoItem.imageUrl === displayedPhoto}
                         >
-                            <img src={photoItem.imageUrl} alt="" />
+                            <img src={photoItem.imageUrl} alt="" loading="lazy" />
                         </button>
                     ))}
                 </div>

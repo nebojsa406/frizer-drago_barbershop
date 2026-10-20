@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import './components/toastCsses/errorToast.css';
 import './components/toastCsses/successToast.css';
 import { refreshTokenLogin } from './api/admin.js';
+import { ScrollToTop } from './components/global/jsx/ScrollToTop.jsx';
 
 function App() {
   const [user, setUser] = useState(undefined);
@@ -44,6 +45,7 @@ function App() {
   return (
     <div className="app-shell">
       <Header admin={isAdmin} setUser={setUser} />
+      <ScrollToTop/>
       <main className="main-content">
         <Routes>
 

@@ -27,7 +27,7 @@ export function Header({ admin, setUser }) {
             <div className="header-inner">
                 <Link to="/" className="brand">
                     <div className="logo-wrap">
-                        <img src={logo} alt="Frizer Drago" className="logo-img" />
+                        <img src={logo} alt="Frizer Drago" className="logo-img" loading="lazy" />
                     </div>
                     <div className="brand-text">
                         <div className="brand-title">Frizer Drago</div>

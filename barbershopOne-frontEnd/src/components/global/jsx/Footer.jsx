@@ -40,7 +40,7 @@ export function Footer() {
                 <div className="footer-logo-section">
                     <div className="footer-logo-section-inner">
                         <div className="footer-logo">
-                            <img src={logo} alt="Frizer Drago" className="footer-logo-image" />
+                            <img src={logo} alt="Frizer Drago" className="footer-logo-image" loading="lazy" />
                         </div>
                         <div className="footer-logo-text">
                             <h2 className="footer-title">Frizer Drago</h2>

@@ -58,7 +58,7 @@
     top: calc(var(--site-header-height) + 62px);
     left: 50%;
     z-index: 60;
-    width: min(900px, calc(100vw - 6rem));
+    width: min(1300px, calc(100vw - 6rem));
     min-height: 70vh;
     box-sizing: border-box;
     padding: 15px;
@@ -543,6 +543,27 @@
     letter-spacing: 0.1rem;
     color: var(--brass);
     font-family: 'Space Mono', monospace;
+}
+
+.choose-date-content-div{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.date-shift-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 20px;
+    color: var(--cream);
+    background: var(--panel);
+    border: 1px solid var(--hair);
+    padding: 8px 18px;
+    text-align: center;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all .2s ease;
 }
 
 .appoint-page-title-wrapper h2 {

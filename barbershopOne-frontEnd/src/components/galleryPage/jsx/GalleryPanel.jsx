@@ -11,7 +11,7 @@ export function GalleryPanel({ gallery = [] }) {
         photoUrls.length > 0 ? (
             <div className="gallery-viewer">
                 <div className="gallery-selected-photo">
-                    <img src={displayedPhoto} alt="Selected gallery photo" />
+                    <img src={displayedPhoto} alt="Selected gallery photo" loading="lazy" />
                 </div>
 
                 <div className="gallery-photo-thumbnails" aria-label="Gallery photos">
@@ -24,7 +24,7 @@ export function GalleryPanel({ gallery = [] }) {
                             aria-label={`Show gallery photo ${index + 1}`}
                             aria-pressed={photo === displayedPhoto}
                         >
-                            <img src={photo} alt="" />
+                            <img src={photo} alt="" loading="lazy" />
                         </button>
                     ))}
                 </div>

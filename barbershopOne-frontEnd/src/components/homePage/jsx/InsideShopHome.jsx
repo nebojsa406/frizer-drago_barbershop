@@ -43,6 +43,7 @@ export function InsideShopHome() {
                     {galleryImages.map((card) => (
                         <article key={card.id} className="insideShopHome-card">
                             <img
+                                loading='lazy'
                                 className="insideShopHome-thumb"
                                 src={card.assetImage}
                                 style={{ objectPosition: card.objectPosition }}

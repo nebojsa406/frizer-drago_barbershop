@@ -10,7 +10,7 @@
   --cream: #F1E8DA;
   --taupe: #9C8C79;
   --hair: rgba(199, 154, 92, 0.438);
-  --maxw: 1180px;
+  --maxw: 1580px;
 }
 
 .insideShopHome {
@@ -117,5 +117,9 @@
   .insideShopHome {
     padding: 3rem 1.5rem;
   }
-}
 
+  .insideShopHome-grid {
+    width: calc(100% + 3rem);
+    margin-inline: -1.5rem;
+  }
+}
