@@ -136,33 +136,79 @@
 
 .btn-book, .log-out {
     font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.20em;
     text-transform: uppercase;
-    color: var(--ink);
-    background: linear-gradient(180deg, var(--brass-bright), var(--brass));
     padding: 10px 20px;
     border-radius: 2px;
-    border: none;
     white-space: nowrap;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset, 0 6px 14px -6px rgba(199, 154, 92, 0.5);
-    transition: transform .2s ease, box-shadow .2s ease;
+    cursor: pointer;
+
+    /* glass core */
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+
+    /* soft top-down sheen + inner highlight */
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        0 4px 14px rgba(0, 0, 0, 0.25);
+
+    transition: transform .4s ease, box-shadow .3s ease,
+                background .4s ease, border-color .4s ease, color .4s ease;
 }
 
-.btn-book{
-    background: linear-gradient(180deg, rgb(224, 164, 0), rgba(190, 124, 0, 0.603));
+.btn-book {
+    font-size: 12px;
+    color: #f7dab9;
+    background: linear-gradient(180deg,
+        rgba(247, 218, 185, 0.12),
+        rgba(247, 218, 185, 0.03));
+    border: 1px solid rgba(221, 173, 117, 0.35);
 }
 
-.btn-book:hover, .log-out:hover {
+.btn-book:hover {
     transform: translateY(-1px);
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset, 0 10px 20px -8px rgba(199, 154, 92, 0.65);
+    background: linear-gradient(180deg,
+        rgba(221, 173, 117, 0.25),
+        rgba(221, 173, 117, 0.08));
+    border-color: #ddad75;
+    color: #fff0dc;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        0 6px 18px -4px rgba(199, 154, 92, 0.5);
+}
+
+.log-out {
+    font-size: 10px;
+    font-weight: bold;
+    padding: 10px 8px;
+    text-decoration: none;
+    color: rgb(255, 110, 60);
+    background: linear-gradient(180deg,
+        rgba(165, 47, 0, 0.18),
+        rgba(165, 47, 0, 0.05));
+    border: 1px solid rgba(165, 47, 0, 0.5);
+}
+
+.log-out:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(180deg,
+        rgba(165, 47, 0, 0.32),
+        rgba(165, 47, 0, 0.12));
+    border-color: rgb(200, 60, 10);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 6px 18px -4px rgba(165, 47, 0, 0.55);
 }
 
 .log-out {
     font-size: 10px;
     padding: 10px 8px;
     text-decoration: none;
-    background: rgb(165, 47, 0);
+    background: transparent;
+    border: 1px rgb(165, 47, 0) solid;
+    color: rgb(165, 47, 0);
+    font-size: 10px;
+    font-weight: bold;
 }
 
 .logout-wrap-link {
