@@ -13,7 +13,24 @@ router.get("/times", browseLimiter, async (req, res) => {
         const disabledTimes = await TimeSlot.find({ date: { $gte: new Date().setHours(0, 0, 0, 0) } }, { _id: 0, time: 1, date: 1 });
         const unavailableTimes = [...takenTimes, ...disabledTimes];
         if (unavailableTimes.length === 0) return res.status(200).json({ message: "no taken times been found in present or future" });
-        res.status(200).json({ times: [...unavailableTimes] });
+        res.status(200).json({ times: [...unavailableTimes], takenTimes: takenTimes });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "server error" });
+    }
+});
+
+//get appointment by time
+router.get("/byTime", browseLimiter, authenticateAccessToken, requireAdmin, async (req, res) => {
+    try {
+        const time = req.body.time;
+        const date = req.body.date
+        console.log("time: ", time,"date: ", date);
+
+        const appointment = await Appointment.find({ date: new Date().setHours(0, 0, 0, 0)});
+        console.log("appointment: ", appointment);
+
+        res.status(200).json({appointment: appointment});
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "server error" });

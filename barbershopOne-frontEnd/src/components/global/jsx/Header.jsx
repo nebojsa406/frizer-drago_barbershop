@@ -36,7 +36,7 @@ export function Header({ admin, setUser }) {
                 </Link>
 
                 {admin ?
-                    <Link to="/" className="logout-wrap-link"><button onClick={(e) => handleLogout(e)} className="log-out">LOG OUT</button></Link>
+                    <Link to="/" className="logout-wrap-link logout-mobile"><button onClick={(e) => handleLogout(e)} className="log-out">LOG OUT</button></Link>
                     : <></>
                 }
 
@@ -44,7 +44,12 @@ export function Header({ admin, setUser }) {
                     <Link to="/location" className="nav-link">LOCATION</Link>
                     <Link to="/gallery" className="nav-link">GALLERY</Link>
                     <Link to="/prices" className="nav-link">PRICES</Link>
-                    <Link to="/book" className="btn-book-wrap-link"><button className="btn-book">BOOK APPOINTMENT</button></Link>
+                    <Link to="/book" className="btn-book-wrap-link">
+                        <button className="btn-book">BOOK APPOINTMENT</button>
+                    </Link>
+                    {admin &&
+                        <Link to="/" className="logout-wrap-link logout-desktop"><button onClick={(e) => handleLogout(e)} className="log-out">LOG OUT</button></Link>
+                    }
                 </nav>
             </div>
         </header>
