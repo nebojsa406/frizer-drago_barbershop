@@ -24,7 +24,7 @@
 
 .admin-panel-toggle-btn, .disable-time-slot-btn {
     position: fixed;
-    top: calc(var(--site-header-height) + 15px);
+    top: calc(var(--site-header-height) + 25px);
     left: 3rem;
     z-index: 61;
     padding: 8px 12px;
@@ -48,7 +48,7 @@
     outline: none;
 }
 .disable-time-slot-btn{
-    top: calc(var(--site-header-height) + 60px);
+    top: calc(var(--site-header-height) + 70px);
     left: 3rem;
     z-index: 61;
 }
@@ -208,7 +208,7 @@
 
 .open-appointment-search-btn {
     position: fixed;
-    top: calc(var(--site-header-height) + 15px);
+    top: calc(var(--site-header-height) + 25px);
     right: 3rem;
     z-index: 10;
     width: 24px;
@@ -369,6 +369,111 @@
     color: var(--cream);
     font-family: 'Work Sans', sans-serif;
     font-size: 14px;
+}
+
+.appointment-popout-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: block;
+    box-sizing: border-box;
+    padding: 24px;
+    background: rgba(10, 8, 6, 0.78);
+    backdrop-filter: blur(5px);
+}
+
+.appointment-popout-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(960px, calc(100vw - 48px));
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 26px;
+    transform: translate(-50%, -50%);
+    border: 1px solid var(--brass);
+    border-radius: 8px;
+    background: linear-gradient(145deg, #241b14, #15110d);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65);
+}
+
+.appointment-popout-dialog h2 {
+    margin: 0 0 18px;
+    color: var(--brass-bright);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.appointment-popout-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 7px 12px;
+    border: 1px solid var(--brass-dim);
+    border-radius: 3px;
+    color: var(--cream);
+    background: rgba(18, 16, 13, 0.8);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+}
+
+.appointment-popout-close:hover,
+.appointment-popout-close:focus-visible {
+    color: var(--ink);
+    background: var(--brass);
+    outline: none;
+}
+
+.appointment-results-card.appointment-popout-card {
+    align-items: stretch;
+    min-height: 420px;
+    gap: 32px;
+    padding: 32px;
+    border-left-width: 4px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 32px rgba(199, 154, 92, 0.05);
+}
+
+.appointment-popout-card .appointment-results-card-info-div {
+    flex: 0 0 40%;
+    justify-content: center;
+    gap: 12px;
+}
+
+.appointment-popout-card .appointment-results-card-info-div p:first-child {
+    margin-bottom: 8px;
+    font-size: 22px;
+}
+
+.appointment-popout-card .appointment-results-card-info-div p:not(:first-child) {
+    font-size: 16px;
+    overflow-wrap: anywhere;
+}
+
+.appointment-popout-card .appointment-results-card-details {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 8px 0;
+}
+
+.appointment-popout-card .appointment-results-card-details > p:first-child {
+    margin-bottom: 12px;
+    color: var(--brass-bright);
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+}
+
+.appointment-popout-card .appointment-card-details-content {
+    height: 250px;
+    font-size: 15px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 .appointment-admin-card {
@@ -701,6 +806,16 @@
     color: var(--taupe);
 }
 
+.time-btn-appointment {
+    background-color: #f2b84b;
+    color: #3b2a0a;
+}
+
+.time-btn-past-appointment {
+    background-color: #713400;
+    color: #281707;
+}
+
 .appoint-page-details-input-div {
     display: flex;
     flex-direction: column;
@@ -784,12 +899,12 @@
     }
 
     .admin-panel-toggle-btn {
-        top: calc(var(--site-header-height) + 23px);
+        top: calc(var(--site-header-height) + 33px);
         left: 1.25rem;
     }
 
     .disable-time-slot-btn {
-        top: calc(var(--site-header-height) + 62px);
+        top: calc(var(--site-header-height) + 72px);
         left: 1.25rem;
     }
 
@@ -908,7 +1023,7 @@
     }
 
     .open-appointment-search-btn {
-        top: calc(var(--site-header-height) + 15px);
+        top: calc(var(--site-header-height) + 25px);
         right: 1.25rem;
     }
 
@@ -917,5 +1032,50 @@
         right: 1.25rem;
         width: calc(100% - 2.5rem);
         max-height: calc(100vh - var(--site-header-height) - 157px);
+    }
+
+    .appointment-popout-backdrop {
+        padding: 16px;
+    }
+
+    .appointment-popout-dialog {
+        width: 100%;
+        max-height: calc(100vh - 32px);
+        padding: 20px 16px;
+    }
+
+    .appointment-popout-dialog h2 {
+        margin: 2px 84px 16px 0;
+        font-size: 19px;
+    }
+
+    .appointment-popout-close {
+        top: 16px;
+        right: 16px;
+    }
+
+    .appointment-results-card.appointment-popout-card {
+        flex-direction: column;
+        min-height: 0;
+        gap: 18px;
+        padding: 20px 16px;
+    }
+
+    .appointment-popout-card .appointment-results-card-info-div {
+        flex: 0 0 auto;
+        gap: 8px;
+    }
+
+    .appointment-popout-card .appointment-results-card-info-div p:first-child {
+        font-size: 19px;
+    }
+
+    .appointment-popout-card .appointment-results-card-info-div p:not(:first-child) {
+        font-size: 13px;
+    }
+
+    .appointment-popout-card .appointment-card-details-content {
+        height: auto;
+        max-height: 180px;
     }
 }

@@ -10,7 +10,7 @@ export const getTakenTimes = async () => {
     const res = await fetch(`${API_URL}/times`);
     if (!res.ok) throw new Error('failed to fetch appointments times');
     const data = await res.json();
-    return data.times;
+    return {times: data.times, appointmentTimes: data.appointmentTimes};
 }
 
 //post
@@ -46,6 +46,21 @@ export const getByPhone = async (phone) => {
 
 
 //------------ADMIN----------\\
+
+//get by time
+export const getByTime = async (date, time) => {
+    const res = await authFetch(`${API_URL}/byTime?date=${date}&time=${time}`, {
+        method: 'GET'
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+        toast(data.message, { className: "errorToast", progressClassName: "errorProgress" });
+        throw new Error(data.message || "Failed to load appointments");
+    }
+    
+    return data;
+}
 
 //get by date
 export const getByDate = async (date, toggleFrom) => {

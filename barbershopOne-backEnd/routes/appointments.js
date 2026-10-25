@@ -13,7 +13,7 @@ router.get("/times", browseLimiter, async (req, res) => {
         const disabledTimes = await TimeSlot.find({ date: { $gte: new Date().setHours(0, 0, 0, 0) } }, { _id: 0, time: 1, date: 1 });
         const unavailableTimes = [...takenTimes, ...disabledTimes];
         if (unavailableTimes.length === 0) return res.status(200).json({ message: "no taken times been found in present or future" });
-        res.status(200).json({ times: [...unavailableTimes], takenTimes: takenTimes });
+        res.status(200).json({ times: [...unavailableTimes], appointmentTimes: takenTimes });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "server error" });
@@ -22,15 +22,22 @@ router.get("/times", browseLimiter, async (req, res) => {
 
 //get appointment by time
 router.get("/byTime", browseLimiter, authenticateAccessToken, requireAdmin, async (req, res) => {
-    try {
-        const time = req.body.time;
-        const date = req.body.date
-        console.log("time: ", time,"date: ", date);
+    try {//finish when ur able to mark time slot with red circle
+        const time = req.query.time;
+        const date = req.query.date;
+        const searchDate = new Date(date);
+        searchDate.setUTCHours(0,0,0,0);
+        searchDate.toISOString();
 
-        const appointment = await Appointment.find({ date: new Date().setHours(0, 0, 0, 0)});
-        console.log("appointment: ", appointment);
+        const appointment = await Appointment.find({ date: searchDate, time: time});
 
-        res.status(200).json({appointment: appointment});
+        if (appointment.length === 0) return res.status(404).json({message: "couldn't find any appointments"});
+        if (appointment.length > 1) {
+            console.log("error: found appointments: ",appointment, "instead of 1!");
+            return res.status(500).json({ message: "multiple records found where only one was expected"});
+        }
+
+        res.status(200).json({appointment: appointment[0]});
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "server error" });

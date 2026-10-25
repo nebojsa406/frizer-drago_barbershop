@@ -1,11 +1,12 @@
 import "../css/AppointmentsPage.css"
 import { useState, useEffect } from "react";
-import { getTakenTimes, disableTimeSlot, postAppointment, getByPhone } from "../../../api/appointments";
+import { getTakenTimes, disableTimeSlot, postAppointment, getByPhone, getByTime } from "../../../api/appointments";
 import { toast } from "react-toastify";
 import { getServices } from "../../../api/services.js"
 import { AdminAppointmentPanel } from "./AdminAppointmentPanel.jsx";
 import { AppointmentSearch } from "./AppointmentSearch.jsx";
 import { AppointmentResultsTemplate } from "./AppointmentResultsTemplate.jsx";
+import { AppointmentCard } from "./AppointmentCard.jsx";
 
 const TIME_SLOTS = [
     "10:00", "10:30", "11:00", "11:30", "12:00", "12:30",
@@ -34,6 +35,7 @@ export function AppointmentsPage({ admin = false }) {
 
     //taken times data
     const [takenTimes, setTakenTimes] = useState([]);
+    const [appointmentTimes, setAppointmentTimes] = useState([]);
     const [services, setServices] = useState([]);
 
     //search by phone apointment data
@@ -53,6 +55,8 @@ export function AppointmentsPage({ admin = false }) {
 
     //admin panel data
     const [showAdminPanel, setShowAdminPanel] = useState(false);
+    const [popOutAppointmentToggle, setPopOutAppointmentToggle] = useState(false);
+    const [popOutAppointmentInfo, setPopOutAppointmentInfo] = useState(null);
 
 
 
@@ -61,7 +65,8 @@ export function AppointmentsPage({ admin = false }) {
         (async () => {
             try {
                 const data = await getTakenTimes();
-                setTakenTimes(data ?? []);
+                setTakenTimes(data.times ?? []);
+                setAppointmentTimes(data.appointmentTimes ?? []);
                 const serviceData = await getServices();
                 setServices(serviceData.services);
 
@@ -127,7 +132,7 @@ export function AppointmentsPage({ admin = false }) {
             setAppointmentsByPhone([...foundAppointments.appointments]);
 
         } catch (err) {
-            throw new Error("failed to load appointments array")
+            throw new Error("failed to load appointments array", { cause: err });
         }
     }
 
@@ -169,6 +174,19 @@ export function AppointmentsPage({ admin = false }) {
         setSelectedTime("");
     }
 
+    async function handleSelectedAppTime(time) {
+        try {
+            const data = await getByTime(selectedDate, time);
+            if (!data.appointment) {
+                throw new Error("No appointment found for this time");
+            }
+            setPopOutAppointmentInfo(data.appointment);
+            setPopOutAppointmentToggle(true);
+        } catch (err) {
+            toast(err instanceof Error ? err.message : "Failed to load appointment", { className: "errorToast", progressClassName: "errorProgress" });
+        }
+    }
+
     return (
         <div className="appointments-page">
             {admin === true ? // admin open/close button
@@ -193,6 +211,37 @@ export function AppointmentsPage({ admin = false }) {
                 </>
                 : <></>
             }
+            {admin === true && popOutAppointmentToggle && popOutAppointmentInfo && (
+                <div
+                    className="appointment-popout-backdrop"
+                    role="presentation"
+                    onClick={() => setPopOutAppointmentToggle(false)}
+                >
+                    <section
+                        className="appointment-popout-dialog"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="appointment-popout-title"
+                        onClick={(event) => event.stopPropagation()}
+                    >
+                        <button
+                            type="button"
+                            className="appointment-popout-close"
+                            aria-label="Close appointment details"
+                            onClick={() => setPopOutAppointmentToggle(false)}
+                        >
+                            Close
+                        </button>
+                        <h2 id="appointment-popout-title">Appointment details</h2>
+                        <AppointmentCard
+                            appointment={popOutAppointmentInfo}
+                            dateComparison={dateComparison}
+                            dateToday={dateToday}
+                            popOutView
+                        />
+                    </section>
+                </div>
+            )}
 
             {showAdminPanel && admin === true ? //admin panel
                 <AdminAppointmentPanel dateComparison={dateComparison} dateToday={dateToday} />
@@ -299,17 +348,29 @@ export function AppointmentsPage({ admin = false }) {
                     <div className="appoint-page-time-input-div">
                         <p className="appoint-page-eyebrow">CHOOSE A TIME</p>
                         <div className="time-buttons-grid">
-                            {timeSlots.map((slot, index) => (
-                                <button
-                                    key={index}
-                                    type="button"
-                                    className={`time-btn ${!slot.available ? "time-btn-unavailable" : ""} ${selectedTime === slot.time ? "time-btn-selected" : ""}`}
-                                    onClick={() => slot.available && setSelectedTime(slot.time)}
-                                    disabled={!slot.available}
-                                >
-                                    {slot.time}
-                                </button>
-                            ))}
+                            {timeSlots.map((slot, index) => {
+                                const hasAppointment = admin && appointmentTimes.some((appointment) =>
+                                    appointment.time === slot.time &&
+                                    appointment.date.slice(0, 10) === selectedDate
+                                );
+                                const isPastTime = selectedDate === dateToday &&
+                                    currentTimeInMinutes > getTimeInMinutes(slot.time);
+
+                                return (
+                                    <button
+                                        key={index}
+                                        type="button"
+                                        className={`time-btn ${!slot.available ? "time-btn-unavailable" : ""} ${selectedTime === slot.time ? "time-btn-selected" : ""} ${hasAppointment ? (isPastTime ? "time-btn-past-appointment" : "time-btn-appointment") : ""}`}
+                                        onClick={() => {
+                                            if (hasAppointment) handleSelectedAppTime(slot.time);
+                                            else if (slot.available) setSelectedTime(slot.time);
+                                        }}
+                                        disabled={!slot.available && !hasAppointment}
+                                    >
+                                        {slot.time}
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
 
